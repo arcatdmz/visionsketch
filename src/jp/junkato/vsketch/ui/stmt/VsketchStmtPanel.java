@@ -86,9 +86,6 @@ public class VsketchStmtPanel extends JPanel {
 
 	public void setStmt(Stmt stmt) {
 		this.stmt = stmt;
-		Stmt parent = stmt.getParent();
-		parent.setPreviewPane(getInputPanel().getPane());
-		stmt.setPreviewPane(getOutputPanel().getPane());
 		inputPanel.setStmt(stmt);
 		outputPanel.setStmt(stmt);
 		if (stmt.getFunction() != null) {

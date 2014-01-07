@@ -7,6 +7,7 @@ import javax.swing.ScrollPaneConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 
 import jp.junkato.vsketch.function.Function;
@@ -21,6 +22,7 @@ import jp.junkato.vsketch.tool.RectangleTool;
 import jp.junkato.vsketch.tool.RemoveTool;
 import jp.junkato.vsketch.tool.ShapeListener;
 import jp.junkato.vsketch.tool.Tool;
+import jp.junkato.vsketch.ui.VsketchFrame;
 
 public class VsketchStmtInputPanel extends JPanel implements ShapeListener {
 	private static final long serialVersionUID = 6399615540198759780L;
@@ -113,7 +115,10 @@ public class VsketchStmtInputPanel extends JPanel implements ShapeListener {
 
 	private class ShapesPainter implements Painter {
 		public void paint(Graphics g) {
-			stmt.paintShapesInStmtView(g);
+			((Graphics2D)g).setStroke(VsketchFrame.stroke);
+			for (Shape shape : stmt.getShapes()) {
+				shape.paint(g, pane);
+			}
 		}
 	}
 

@@ -5,11 +5,12 @@ import static com.googlecode.javacv.cpp.opencv_highgui.cvSaveImage;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -31,8 +32,6 @@ import jp.junkato.vsketch.ui.VsketchFrame;
 import jp.junkato.vsketch.ui.AnimatedGlassPane;
 import jp.junkato.vsketch.ui.code.VsketchCodePanel;
 import jp.junkato.vsketch.ui.code.VsketchCodeSketchPanel;
-import jp.junkato.vsketch.ui.stmt.VsketchPreviewPane;
-import jp.junkato.vsketch.ui.stmt.VsketchPreviewPanel;
 import jp.junkato.vsketch.ui.stmt.VsketchStmtOutputPanel;
 import jp.junkato.vsketch.ui.stmt.VsketchStmtPanel;
 
@@ -42,23 +41,70 @@ public class Stmt implements ShapeListener {
 	static final int BORDER_WIDTH = 30;
 	public static final int THUMBNAIL_WIDTH = 160;
 	public static final int THUMBNAIL_HEIGHT = 120;
+
+	/**
+	 * Numerical identifier for this statement (node) in code (a dataflow graph).
+	 */
 	@Element
 	private int id;
+
+	/**
+	 * @see {@link Code}
+	 */
 	private Code code;
+
+	/**
+	 * Parent statement in code.
+	 */
 	private Stmt parent;
+
+	/**
+	 * Function instance paired with this statement.
+	 */
 	//@Element(required=false)
 	private Function function;
+
+	/**
+	 * A set of shapes for:
+	 * <ol>
+	 *	<li>filtering image processing components in {@link VsketchStmtPanel}</li>
+	 *	<li>serving as arguments to a selected image processing component ({@link Function} instance)</li>
+	 * </ol>
+	 */
 	private Set<Shape> shapes;
+
+	/**
+	 * Child statements in code.
+	 */
 	@ElementList(empty=true)
 	private Set<Stmt> children;
+
+	/**
+	 * X-coordinate of this statement in {@link VsketchCodeSketchPanel}
+	 */
 	@Element
 	private int x;
+
+	/**
+	 * Y-coordinate of this statement in {@link VsketchCodeSketchPanel}
+	 */
 	@Element
 	private int y;
-	private BufferedImage javaImage;
-	private BufferedImage javaThumbnail;
-	private VsketchPreviewPane pane;
 
+	/**
+	 * {@link BufferedImage} for holding output from {@link Stmt#function}.
+	 */
+	private BufferedImage javaImage;
+
+	/**
+	 * {@link BufferedImage} for holding thumbnail of {@link Stmt#javaImage}.
+	 */
+	private BufferedImage javaThumbnail;
+
+	/**
+	 * This constructor is only called by deserializer.
+	 * @see {@link Code#load(File)}
+	 */
 	Stmt() {
 		setShapes(new HashSet<Shape>());
 	}
@@ -107,6 +153,34 @@ public class Stmt implements ShapeListener {
 			}
 		}
 		this.function = function;
+		if (function != null) {
+			System.out.println("--- Analyzing public fields.");
+			Field[] fields = function.getClass().getFields();
+			if (fields.length > 0) {
+				for (Field field : fields) {
+					int modifier = field.getModifiers();
+					if ((modifier & Modifier.PUBLIC) > 0
+							&& (modifier & Modifier.FINAL) == 0) {
+						System.out.print("Public mutable field found: " + field.getName());
+						Object obj;
+						try {
+							obj = field.get(function);
+							if (obj != null) {
+								System.out.print(" (");
+								System.out.print(obj.toString());
+								System.out.print(")");
+							}
+						} catch (IllegalArgumentException e) {
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						} finally {
+							System.out.println();
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public Set<Stmt> getChildren() {
@@ -115,10 +189,6 @@ public class Stmt implements ShapeListener {
 
 	private void setChildren(Set<Stmt> children) {
 		this.children = children;
-	}
-
-	public void setPreviewPane(VsketchPreviewPane pane) {
-		this.pane = pane;
 	}
 
 	public void edit(int offsetX, int offsetY) {
@@ -302,37 +372,6 @@ public class Stmt implements ShapeListener {
 		return javaImage;
 	}
 
-	public void paintInStmtView(Graphics g) {
-		VsketchPreviewPanel panel = pane.getPanel();
-		int width = panel.getWidth(), height = panel.getHeight();
-
-		switch (panel.getFitMode()) {
-		case ORIGINAL:
-		default:
-			g.drawImage(getOutput(), 0, 0, null);
-			break;
-		case FIT_HORIZONTAL:
-			g.drawImage(getOutput(), 0, 0,
-					width, getOutput().getHeight() * width / getOutput().getWidth(), null);
-			break;
-		case FIT_VERTICAL:
-			g.drawImage(getOutput(), 0, 0,
-					getOutput().getWidth() * height / getOutput().getHeight(), height, null);
-			break;
-		case FIT_BOTH:
-			g.drawImage(getOutput(), 0, 0,
-					width, height, null);
-			break;
-		}
-	}
-
-	public void paintShapesInStmtView(Graphics g) {
-		((Graphics2D)g).setStroke(VsketchFrame.stroke);
-		for (Shape shape : shapes) {
-			shape.paint(g, pane);
-		}
-	}
-
 	/**
 	 * Normal statement passes the current result image to the next statement.
 	 * @return 
@@ -355,6 +394,8 @@ public class Stmt implements ShapeListener {
 		shapes.clear();
 		children.clear();
 	}
+
+// Serialization-related methods.
 
 	void saveFunction(File dir) {
 		if (function == null) {

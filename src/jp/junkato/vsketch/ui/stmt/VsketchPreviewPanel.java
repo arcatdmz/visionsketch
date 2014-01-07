@@ -1,6 +1,7 @@
 package jp.junkato.vsketch.ui.stmt;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,9 +40,34 @@ public class VsketchPreviewPanel extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+
+		// Fill background.
 		g.setColor(getBackground());
 		g.fillRect(0, 0, getWidth(), getHeight());
-		stmt.paintInStmtView(g);
+
+		// Draw image.
+		int width = getWidth(), height = getHeight();
+		BufferedImage output = stmt.getOutput();
+		switch (fitMode) {
+		case ORIGINAL:
+		default:
+			g.drawImage(output, 0, 0, null);
+			break;
+		case FIT_HORIZONTAL:
+			g.drawImage(output, 0, 0,
+					width, output.getHeight() * width / output.getWidth(), null);
+			break;
+		case FIT_VERTICAL:
+			g.drawImage(output, 0, 0,
+					output.getWidth() * height / output.getHeight(), height, null);
+			break;
+		case FIT_BOTH:
+			g.drawImage(output, 0, 0,
+					width, height, null);
+			break;
+		}
+
+		// Show additional information if any.
 		for (Painter painter : painters) {
 			painter.paint(g);
 		}

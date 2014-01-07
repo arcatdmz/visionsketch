@@ -10,6 +10,7 @@ import jp.junkato.vsketch.shape.*;
 public class ThresholdFunction extends Function {
 
 	private IplImage resultImage;
+	public int threshold = 60;
 
 	public ThresholdFunction(Stmt stmt, FunctionTemplate template) {
 		super(stmt, template);
@@ -42,7 +43,7 @@ public class ThresholdFunction extends Function {
 
 		// Do some processing.
 		cvCvtColor(sourceImage, resultImage, CV_RGB2GRAY);
-		cvThreshold(resultImage, resultImage, 60, 255, CV_THRESH_BINARY);
+		cvThreshold(resultImage, resultImage, threshold, 255, CV_THRESH_BINARY);
 	}
 
 	// Return the result image to be passed to the connected component.
