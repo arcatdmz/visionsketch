@@ -1,5 +1,7 @@
-Phybots - a toolkit for making robotic things
-Copyright (C) 2012 Jun KATO
+Visionsketch:
+An IDE for example-centric programming of image processing apps
+
+Copyright (C) 2014 Jun KATO
 
 The contents of this file are subject to the Mozilla Public License Version
 1.1 (the "License"); you may not use this file except in compliance with
@@ -11,11 +13,11 @@ WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
 for the specific language governing rights and limitations under the
 License.
 
-The Original Code is Phybots.
+The Original Code is Visionsketch.
 
 The Initial Developer of the Original Code is Jun KATO.
 Portions created by the Initial Developer are
-Copyright (C) 2012 Jun KATO. All Rights Reserved.
+Copyright (C) 2014 Jun KATO. All Rights Reserved.
 
 Contributor(s): Jun KATO
 
