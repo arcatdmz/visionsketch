@@ -71,4 +71,9 @@ public class VsketchCodePanel extends JPanel {
 	public VsketchCodeSketchPanel getCodeSketchPanel() {
 		return codeSketchPanel;
 	}
+
+	public void repaintView() {
+		codeSketchPanel.repaint();
+	}
+
 }

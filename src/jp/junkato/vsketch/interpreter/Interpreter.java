@@ -173,9 +173,14 @@ public class Interpreter {
 	}
 
 	public void next() {
-		if (getSource().nextFrame()
-				&& VsketchFrame.getInstance().getStmtPanel().isShowing()) {
-			VsketchFrame.getInstance().getStmtPanel().repaintView();
+		if (getSource().nextFrame()) {
+			VsketchFrame f = VsketchFrame.getInstance();
+			if (f.getCodePanel().isShowing()) {
+				f.getCodePanel().repaintView();
+			} else if (f.getStmtPanel().isShowing()
+					&& !f.getStmtPanel().getEditorPanel().isShowing()) {
+				f.getStmtPanel().repaintView();
+			}
 		}
 		if (getDuration() >= 0 &&
 				getCurrentPosition() >= getDuration() - 1) {

@@ -75,6 +75,7 @@ public class VsketchStmtOutputPanel extends JPanel {
 		if (this.function != null) {
 			pane.getPanel().removeMouseListener(this.function);
 			pane.getPanel().removeMouseMotionListener(this.function);
+			pane.getPanel().removeMouseWheelListener(this.function);
 		}
 		this.function = function;
 
@@ -82,6 +83,7 @@ public class VsketchStmtOutputPanel extends JPanel {
 		if (function != null) {
 			pane.getPanel().addMouseListener(function);
 			pane.getPanel().addMouseMotionListener(function);
+			pane.getPanel().addMouseWheelListener(function);
 		}
 
 		// Add optional GUI components.

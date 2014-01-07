@@ -1,24 +1,39 @@
 package jp.junkato.vsketch.ui.stmt;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
 
 import jp.junkato.vsketch.interpreter.Stmt;
+import jp.junkato.vsketch.ui.Icon;
 import jp.junkato.vsketch.ui.VsketchFrame;
 import jp.junkato.vsketch.ui.stmt.VsketchPreviewPanel.FitMode;
 
 public class VsketchPreviewPane extends JScrollPane {
-	private static final long serialVersionUID = 6179086466010398422L;
+	private static final long serialVersionUID = -7261812132374951716L;
 	private VsketchPreviewPanel panel;
 	private Stmt stmt;
+	private Icon fitModeIcon;
+	private static final int fitModeIconPadding = 5;
+	private boolean buttonVisible;
+	private boolean buttonPressed;
 
 	public VsketchPreviewPane() {
-		this.panel = new VsketchPreviewPanel();
-		this.setViewportView(panel);
+		panel = new VsketchPreviewPanel();
+		setViewportView(panel);
+		fitModeIcon = VsketchFrame.getIcon("glyphicons_215_resize_full.png");
+		MyMouseListener listener = new MyMouseListener();
+		panel.addMouseListener(listener);
+		panel.addMouseMotionListener(listener);
 	}
 
 	public VsketchPreviewPanel getPanel() {
@@ -99,7 +114,8 @@ public class VsketchPreviewPane extends JScrollPane {
 	public void updatePanelSize() {
 
 		// Set panel size.
-		if (stmt != null) {
+		if (stmt != null
+				&& stmt.getWidth() > 0 && stmt.getHeight() > 0) {
 			int width, height;
 			switch (panel.getFitMode()) {
 			case FIT_VERTICAL:
@@ -128,29 +144,129 @@ public class VsketchPreviewPane extends JScrollPane {
 		}
 	}
 
+	private int getFitModeButtonX() {
+		int x = getWidth() - fitModeIcon.image.getIconWidth() - 15;
+		if (getVerticalScrollBar().isShowing())
+			x -= getVerticalScrollBar().getWidth();
+		return x;
+	}
+
+	private int getFitModeButtonY() {
+		int y = getHeight() - fitModeIcon.image.getIconHeight() - 15;
+		if (getHorizontalScrollBar().isShowing())
+			y -= getHorizontalScrollBar().getHeight();
+		return y;
+	}
+
+	private int getFitModeButtonWidth() {
+		return fitModeIcon.image.getIconWidth()
+				+ fitModeIconPadding * 2;
+	}
+
+	private int getFitModeButtonHeight() {
+		return fitModeIcon.image.getIconHeight()
+				+ fitModeIconPadding * 2;
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		if (buttonVisible || buttonPressed) {
+			int x = getFitModeButtonX();
+			int y = getFitModeButtonY();
+			g.translate(x, y);
+			Color c = g.getColor();
+			g.setColor(Color.white);
+			g.fillRect(0, 0,
+					getFitModeButtonWidth(),
+					getFitModeButtonHeight());
+			fitModeIcon.image.paintIcon(this, g,
+					fitModeIconPadding,
+					fitModeIconPadding);
+			g.setColor(c);
+			g.translate(-x, -y);
+		}
+	}
+
+	private void changeFitMode() {
+		switch (panel.getFitMode()) {
+		case ORIGINAL:
+			setFitMode(FitMode.FIT_VERTICAL);
+			break;
+		case FIT_VERTICAL:
+			setFitMode(FitMode.FIT_HORIZONTAL);
+			break;
+		case FIT_HORIZONTAL:
+			setFitMode(FitMode.FIT_BOTH);
+			break;
+		case FIT_BOTH:
+		default:
+			setFitMode(FitMode.ORIGINAL);
+			break;
+		}
+	}
+
+	private class MyMouseListener extends MouseInputAdapter{
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			Point p = SwingUtilities.convertPoint(
+					e.getComponent(),
+					e.getX(), e.getY(),
+					VsketchPreviewPane.this);
+			boolean visible = buttonVisible;
+			buttonVisible = p.getX() > getFitModeButtonX() - 40
+					&& p.getX() < getFitModeButtonX() + getFitModeButtonWidth();
+			buttonVisible &= p.getY() > getFitModeButtonY() - 40
+					&& p.getY() < getFitModeButtonY() + getFitModeButtonHeight();
+			if (visible != buttonVisible) {
+				RepaintManager rm = RepaintManager.currentManager(VsketchPreviewPane.this);
+				rm.addDirtyRegion(VsketchPreviewPane.this,
+						getFitModeButtonX(), getFitModeButtonY(),
+						getFitModeButtonWidth(), getFitModeButtonHeight());
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if (buttonVisible) {
+				buttonPressed = true;
+				e.consume();
+			}
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			if (buttonPressed) {
+				e.consume();
+			}
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			if (buttonPressed) {
+				buttonPressed = false;
+				changeFitMode();
+				e.consume();
+			}
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			buttonVisible = false;
+			buttonPressed = false;
+		}
+	}
+
 	public class ChangeFitModeAction extends AbstractAction {
 		private static final long serialVersionUID = 2356953880198901552L;
 		public ChangeFitModeAction() {
 			putValue(NAME, "");
 			putValue(SHORT_DESCRIPTION, "Change how the image fits to the panel boundary.");
-			putValue(SMALL_ICON, new ImageIcon(VsketchFrame.class.getResource("/glyphicons_215_resize_full.png")));
+			putValue(SMALL_ICON, VsketchFrame.getIcon("glyphicons_215_resize_full.png").image);
 		}
 		public void actionPerformed(ActionEvent e) {
-			switch (panel.getFitMode()) {
-			case ORIGINAL:
-				setFitMode(FitMode.FIT_VERTICAL);
-				break;
-			case FIT_VERTICAL:
-				setFitMode(FitMode.FIT_HORIZONTAL);
-				break;
-			case FIT_HORIZONTAL:
-				setFitMode(FitMode.FIT_BOTH);
-				break;
-			case FIT_BOTH:
-			default:
-				setFitMode(FitMode.ORIGINAL);
-				break;
-			}
+			changeFitMode();
 		}
 	}
 }

@@ -37,6 +37,9 @@ public class RemoveTool extends Tool {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int x = viewToImageX(e.getX());
 		int y = viewToImageY(e.getY());
 		for (Shape shape : stmt.getShapes()) {

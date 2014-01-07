@@ -32,6 +32,9 @@ public class ScrollTool extends Tool {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		final JComponent view = (JComponent) e.getSource();
 		Container container = view.getParent();
 		if (!(container instanceof JViewport)) {
@@ -47,6 +50,9 @@ public class ScrollTool extends Tool {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		JComponent view = (JComponent) e.getSource();
 		Container container = view.getParent();
 		if (!(container instanceof JViewport)) {

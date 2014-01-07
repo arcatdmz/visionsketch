@@ -47,24 +47,26 @@ public class VsketchPreviewPanel extends JPanel {
 
 		// Draw image.
 		int width = getWidth(), height = getHeight();
-		BufferedImage output = stmt.getOutput();
-		switch (fitMode) {
-		case ORIGINAL:
-		default:
-			g.drawImage(output, 0, 0, null);
-			break;
-		case FIT_HORIZONTAL:
-			g.drawImage(output, 0, 0,
-					width, output.getHeight() * width / output.getWidth(), null);
-			break;
-		case FIT_VERTICAL:
-			g.drawImage(output, 0, 0,
-					output.getWidth() * height / output.getHeight(), height, null);
-			break;
-		case FIT_BOTH:
-			g.drawImage(output, 0, 0,
-					width, height, null);
-			break;
+		BufferedImage output = stmt == null ? null : stmt.getOutput();
+		if (output != null) {
+			switch (fitMode) {
+			case ORIGINAL:
+			default:
+				g.drawImage(output, 0, 0, null);
+				break;
+			case FIT_HORIZONTAL:
+				g.drawImage(output, 0, 0,
+						width, output.getHeight() * width / output.getWidth(), null);
+				break;
+			case FIT_VERTICAL:
+				g.drawImage(output, 0, 0,
+						output.getWidth() * height / output.getHeight(), height, null);
+				break;
+			case FIT_BOTH:
+				g.drawImage(output, 0, 0,
+						width, height, null);
+				break;
+			}
 		}
 
 		// Show additional information if any.

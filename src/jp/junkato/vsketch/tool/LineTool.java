@@ -25,6 +25,9 @@ public class LineTool extends Tool {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int x = viewToImageX(e.getX());
 		int y = viewToImageY(e.getY());
 		if (isDraggingStartPoint) {
@@ -46,6 +49,9 @@ public class LineTool extends Tool {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int x = viewToImageX(e.getX());
 		int y = viewToImageY(e.getY());
 		currentLine = null;
@@ -91,6 +97,9 @@ public class LineTool extends Tool {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int x = viewToImageX(e.getX());
 		int y = viewToImageY(e.getY());
 		if (isDraggingStartPoint) {

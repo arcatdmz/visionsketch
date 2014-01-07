@@ -25,6 +25,9 @@ public class CircleTool extends Tool {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int x = viewToImageX(e.getX());
 		int y = viewToImageY(e.getY());
 		currentCircle.radius = (currentCircle.center.x - x) * (currentCircle.center.x - x);
@@ -38,6 +41,9 @@ public class CircleTool extends Tool {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int x = viewToImageX(e.getX());
 		int y = viewToImageY(e.getY());
 		currentCircle = null;
@@ -62,6 +68,9 @@ public class CircleTool extends Tool {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int x = viewToImageX(e.getX());
 		int y = viewToImageY(e.getY());
 		int radiusSq = (currentCircle.center.x - x) * (currentCircle.center.x - x);

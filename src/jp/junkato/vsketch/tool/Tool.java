@@ -1,8 +1,9 @@
 package jp.junkato.vsketch.tool;
 
-import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.event.MouseInputAdapter;
 
 import jp.junkato.vsketch.VsketchMain;
 import jp.junkato.vsketch.shape.Shape;
@@ -12,7 +13,7 @@ import jp.junkato.vsketch.ui.stmt.VsketchPreviewPane;
 import jp.junkato.vsketch.ui.stmt.VsketchStmtInputPanel;
 import jp.junkato.vsketch.interpreter.Stmt;
 
-public abstract class Tool extends MouseAdapter {
+public abstract class Tool extends MouseInputAdapter {
 	private VsketchStmtInputPanel inputPanel;
 	private VsketchPreviewPane previewPane;
 	private ToolButton button;

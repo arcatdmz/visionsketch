@@ -26,6 +26,9 @@ public class RectangleTool extends Tool {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int x = viewToImageX(e.getX());
 		int y = viewToImageY(e.getY());
 		int draggingIndex = currentRectangle.getDraggingIndex();
@@ -41,6 +44,9 @@ public class RectangleTool extends Tool {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int x = viewToImageX(e.getX());
 		int y = viewToImageY(e.getY());
 		int draggingIndex = -1;
@@ -102,6 +108,9 @@ public class RectangleTool extends Tool {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		if (e.isConsumed()) {
+			return;
+		}
 		int index = currentRectangle.getDraggingIndex();
 		if (index >= 0 || index < 4) {
 			int x = viewToImageX(e.getX());

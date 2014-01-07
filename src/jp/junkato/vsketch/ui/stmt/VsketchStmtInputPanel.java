@@ -115,6 +115,9 @@ public class VsketchStmtInputPanel extends JPanel implements ShapeListener {
 
 	private class ShapesPainter implements Painter {
 		public void paint(Graphics g) {
+			if (stmt == null) {
+				return;
+			}
 			((Graphics2D)g).setStroke(VsketchFrame.stroke);
 			for (Shape shape : stmt.getShapes()) {
 				shape.paint(g, pane);
