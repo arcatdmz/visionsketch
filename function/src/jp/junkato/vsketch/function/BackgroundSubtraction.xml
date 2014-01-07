@@ -1,0 +1,9 @@
+<functionDefinition>
+   <className>BackgroundSubtraction</className>
+   <stmtCheckCode>shapes.size() == 0</stmtCheckCode>
+   <toolCheckCode>true</toolCheckCode>
+   <name>Background subtraction</name>
+   <description></description>
+   <iconFileName>glyphicons_320_filter.png</iconFileName>
+   <retTypes class="java.util.HashMap"/>
+</functionDefinition>

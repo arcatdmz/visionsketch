@@ -1,0 +1,49 @@
+package jp.junkato.vsketch.function;
+
+import static com.googlecode.javacv.cpp.opencv_core.*;
+
+import java.util.*;
+
+import jp.junkato.vsketch.interpreter.Stmt;
+import jp.junkato.vsketch.shape.*;
+import jp.junkato.vsketch.tool.*;
+
+public class %s extends FunctionTemplate {
+%s
+	@Override
+	public boolean isCapableOf(Tool tool, Stmt stmt) {
+		Stmt parent = stmt.getParent();
+		Set<Shape> shapes = stmt.getShapes();
+		Shape shape = shapes.isEmpty() ? null : shapes.iterator().next();
+		return (%s) || tool instanceof ScrollTool;
+	}
+
+	@Override
+	public boolean check(Stmt stmt) {
+		Stmt parent = stmt.getParent();
+		Set<Shape> shapes = stmt.getShapes();
+		Shape shape = shapes.isEmpty() ? null : shapes.iterator().next();
+		IplImage image = stmt.getParent() == null ? null : stmt.getParent().getRawOutput();
+		return %s;
+	}
+
+	@Override
+	public String getName() {
+		return "%s";
+	}
+
+	@Override
+	public String getDescription() {
+		return "%s";
+	}
+
+	@Override
+	public String getIconFileName() {
+		return "%s";
+	}
+
+	public %s newInstance(Stmt stmt) {
+		return new %s(stmt, this);
+	}
+
+}

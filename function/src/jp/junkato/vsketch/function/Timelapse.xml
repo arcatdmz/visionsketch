@@ -1,0 +1,9 @@
+<functionDefinition>
+   <className>Timelapse</className>
+   <stmtCheckCode>shapes.size() == 1 &amp;&amp; shape instanceof Line</stmtCheckCode>
+   <toolCheckCode>shapes.size() == 0 || tool instanceof RemoveTool ||  tool instanceof LineTool</toolCheckCode>
+   <name>Timelapse</name>
+   <description>Make a timelapse image.</description>
+   <iconFileName>glyphicons_097_vector_path_line.png</iconFileName>
+   <retTypes class="java.util.HashMap"/>
+</functionDefinition>

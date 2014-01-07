@@ -1,0 +1,9 @@
+<functionDefinition>
+   <className>Threshold</className>
+   <stmtCheckCode>shapes.size() == 0</stmtCheckCode>
+   <toolCheckCode>true</toolCheckCode>
+   <name>Threshold</name>
+   <description></description>
+   <iconFileName>glyphicons_320_filter.png</iconFileName>
+   <retTypes class="java.util.HashMap"/>
+</functionDefinition>

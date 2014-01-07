@@ -1,0 +1,11 @@
+<functionDefinition>
+   <className>CalcBrightnessAvg</className>
+   <stmtCheckCode>shapes.size() == 0</stmtCheckCode>
+   <toolCheckCode>true</toolCheckCode>
+   <name>Get brightness</name>
+   <description>Get average of brightness. (0-255)</description>
+   <iconFileName>glyphicons_320_filter.png</iconFileName>
+   <retTypes class="java.util.HashMap">
+      <entry key="brightness">java.lang.Integer</entry>
+   </retTypes>
+</functionDefinition>

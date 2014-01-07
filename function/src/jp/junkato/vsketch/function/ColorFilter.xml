@@ -1,0 +1,9 @@
+<functionDefinition>
+   <className>ColorFilter</className>
+   <stmtCheckCode>shapes.size() > 0 &amp;&amp; image != null &amp;&amp; image.nChannels() &gt;= 3</stmtCheckCode>
+   <toolCheckCode>true</toolCheckCode>
+   <name>Color filter</name>
+   <description>Extract regions with similar colors.</description>
+   <iconFileName>glyphicons_320_filter.png</iconFileName>
+   <retTypes class="java.util.HashMap"/>
+</functionDefinition>

@@ -1,0 +1,9 @@
+<functionDefinition>
+   <className>DiscChangeCounter</className>
+   <stmtCheckCode>shapes.size() == 0 &amp;&amp; parent != null &amp;&amp; parent.getFunction() != null &amp;&amp; parent.getFunction().getRetValues().containsKey("area") &amp;&amp; parent.getFunction().getRetValues().containsKey("count")</stmtCheckCode>
+   <toolCheckCode>true</toolCheckCode>
+   <name>Count discs</name>
+   <description></description>
+   <iconFileName>glyphicons_320_filter.png</iconFileName>
+   <retTypes class="java.util.HashMap"/>
+</functionDefinition>

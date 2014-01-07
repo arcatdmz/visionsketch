@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="visionsketch-resources" default="visionsketch-resources-jar" basedir=".">
+
+	<!-- ****Properties**** -->
+
+	<property name="visionsketch-resources.dir" value="resources" />
+
+	<!-- Jar file name -->
+	<property name="visionsketch-resources-jar.name" value="lib/resources.jar" />
+
+	<!-- ****Targets**** -->
+
+	<!-- Jar -->
+	<target name="visionsketch-resources-jar">
+		<jar jarfile="${visionsketch-resources-jar.name}">
+			<fileset file="${visionsketch-resources.dir}/template.txt" />
+			<fileset file="${visionsketch-resources.dir}/functionTemplate.txt" />
+			<zipfileset dir="${visionsketch-resources.dir}" prefix="icons/" excludes="Thumbs.db,template.txt,functionTemplate.txt,_readme_first.txt" />
+		</jar>
+	</target>
+
+	<!-- Clean -->
+	<target name="visionsketch-resources-clean">
+		<delete file="${visionsketch-resources-jar.name}" />
+	</target>
+</project>

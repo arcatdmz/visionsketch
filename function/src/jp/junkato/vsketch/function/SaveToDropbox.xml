@@ -1,0 +1,9 @@
+<functionDefinition>
+   <className>SaveToDropbox</className>
+   <stmtCheckCode>shapes.size() == 0 &amp;&amp; parent != null &amp;&amp; parent.getFunction() != null &amp;&amp; parent.getFunction().getRetValues().containsKey("brightness")</stmtCheckCode>
+   <toolCheckCode>true</toolCheckCode>
+   <name>Dropbox</name>
+   <description>Save current image in Dropbox if it's bright enough.</description>
+   <iconFileName>glyphicons_134_inbox_in.png</iconFileName>
+   <retTypes class="java.util.HashMap"/>
+</functionDefinition>

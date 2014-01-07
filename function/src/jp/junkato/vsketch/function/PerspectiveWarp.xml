@@ -1,0 +1,9 @@
+<functionDefinition>
+   <className>PerspectiveWarp</className>
+   <stmtCheckCode>shapes.size() == 1 &amp;&amp; shape instanceof Rectangle</stmtCheckCode>
+   <toolCheckCode>shapes.size() == 0 || tool instanceof RemoveTool || tool instanceof RectangleTool</toolCheckCode>
+   <name>Perspective warp</name>
+   <description>Warp rectangle area into another rectangle.</description>
+   <iconFileName>glyphicons_094_vector_path_square.png</iconFileName>
+   <retTypes class="java.util.HashMap"/>
+</functionDefinition>

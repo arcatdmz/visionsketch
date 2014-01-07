@@ -1,0 +1,12 @@
+<functionDefinition>
+   <className>ContourCounter</className>
+   <stmtCheckCode>shapes.size() == 0 &amp;&amp; image != null &amp;&amp; image.nChannels() == 1</stmtCheckCode>
+   <toolCheckCode>true</toolCheckCode>
+   <name>Contour counter</name>
+   <description>Count up contours.</description>
+   <iconFileName>glyphicons_320_filter.png</iconFileName>
+   <retTypes class="java.util.HashMap">
+      <entry key="area">java.lang.Integer</entry>
+      <entry key="count">java.lang.Integer</entry>
+   </retTypes>
+</functionDefinition>

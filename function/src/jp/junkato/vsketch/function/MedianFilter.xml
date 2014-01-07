@@ -1,0 +1,9 @@
+<functionDefinition>
+   <className>MedianFilter</className>
+   <stmtCheckCode>shapes.size() == 0</stmtCheckCode>
+   <toolCheckCode>true</toolCheckCode>
+   <name>Median filter</name>
+   <description></description>
+   <iconFileName>glyphicons_320_filter.png</iconFileName>
+   <retTypes class="java.util.HashMap"/>
+</functionDefinition>

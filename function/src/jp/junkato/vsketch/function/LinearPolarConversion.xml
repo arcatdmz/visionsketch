@@ -1,0 +1,9 @@
+<functionDefinition>
+   <className>LinearPolarConversion</className>
+   <stmtCheckCode>shapes.size() == 1 &amp;&amp; shape instanceof Circle</stmtCheckCode>
+   <toolCheckCode>shapes.size() == 0 || tool instanceof RemoveTool || tool instanceof CircleTool</toolCheckCode>
+   <name>Linear polar conversion</name>
+   <description>Apply linear polar conversion to the circle.</description>
+   <iconFileName>glyphicons_095_vector_path_circle.png</iconFileName>
+   <retTypes class="java.util.HashMap"/>
+</functionDefinition>
