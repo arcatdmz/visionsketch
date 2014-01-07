@@ -14,10 +14,12 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import jp.junkato.vsketch.VsketchMain;
 import jp.junkato.vsketch.interpreter.Interpreter;
 import jp.junkato.vsketch.interpreter.InterpreterListener;
+import jp.junkato.vsketch.utils.VsketchUtils;
 
 public class PlaybackControllerPanel extends JPanel implements InterpreterListener {
 	private static final long serialVersionUID = 5465021939000658345L;
@@ -47,9 +49,12 @@ public class PlaybackControllerPanel extends JPanel implements InterpreterListen
 		btnStartStop = new JButton();
 		btnStartStop.setFont(VsketchFrame.defaultFont);
 		btnStartStop.setAction(startOrStopAction);
+		if (VsketchUtils.isMac()) {
+			btnStartStop.putClientProperty("JButton.buttonType", "square");
+		}
 		GridBagConstraints gbc_btnStartStop = new GridBagConstraints();
 		gbc_btnStartStop.insets = new Insets(5, 0, 0, 5);
-		gbc_btnStartStop.fill = GridBagConstraints.VERTICAL;
+		gbc_btnStartStop.fill = GridBagConstraints.BOTH;
 		gbc_btnStartStop.anchor = GridBagConstraints.WEST;
 		gbc_btnStartStop.gridx = 0;
 		gbc_btnStartStop.gridy = 0;
@@ -58,9 +63,12 @@ public class PlaybackControllerPanel extends JPanel implements InterpreterListen
 		btnSuperStartStop = new JButton();
 		btnSuperStartStop.setFont(VsketchFrame.defaultFont);
 		btnSuperStartStop.setAction(superStartOrStopAction);
+		if (VsketchUtils.isMac()) {
+			btnSuperStartStop.putClientProperty("JButton.buttonType", "square");
+		}
 		GridBagConstraints gbc_btnSuperStartStop = new GridBagConstraints();
 		gbc_btnSuperStartStop.insets = new Insets(5, 0, 0, 5);
-		gbc_btnSuperStartStop.fill = GridBagConstraints.VERTICAL;
+		gbc_btnSuperStartStop.fill = GridBagConstraints.BOTH;
 		gbc_btnSuperStartStop.anchor = GridBagConstraints.WEST;
 		gbc_btnSuperStartStop.gridx = 1;
 		gbc_btnSuperStartStop.gridy = 0;
@@ -99,6 +107,9 @@ public class PlaybackControllerPanel extends JPanel implements InterpreterListen
 		btnPreviousFrame.setFont(VsketchFrame.defaultFont);
 		btnPreviousFrame.setAction(previousFrameAction);
 		btnPreviousFrame.setHorizontalTextPosition(SwingConstants.RIGHT);
+		if (VsketchUtils.isMac()) {
+			btnPreviousFrame.putClientProperty("JButton.buttonType", "square");
+		}
 		GridBagConstraints gbc_btnPreviousFrame = new GridBagConstraints();
 		gbc_btnPreviousFrame.fill = GridBagConstraints.BOTH;
 		gbc_btnPreviousFrame.insets = new Insets(5, 0, 0, 5);
@@ -118,12 +129,19 @@ public class PlaybackControllerPanel extends JPanel implements InterpreterListen
 		btnNextFrame.setFont(VsketchFrame.defaultFont);
 		btnNextFrame.setAction(nextFrameAction);
 		btnNextFrame.setHorizontalTextPosition(SwingConstants.LEFT);
+		if (VsketchUtils.isMac()) {
+			btnNextFrame.putClientProperty("JButton.buttonType", "square");
+		}
 		GridBagConstraints gbc_btnNextFrame = new GridBagConstraints();
 		gbc_btnNextFrame.fill = GridBagConstraints.BOTH;
 		gbc_btnNextFrame.insets = new Insets(5, 0, 0, 0);
 		gbc_btnNextFrame.gridx = 4;
 		gbc_btnNextFrame.gridy = 0;
 		add(btnNextFrame, gbc_btnNextFrame);
+
+		if (VsketchUtils.isMac()) {
+			setBorder(new EmptyBorder(0, 0, 3, 0));
+		}
 	}
 
 	private class StartOrStopAction extends AbstractAction {

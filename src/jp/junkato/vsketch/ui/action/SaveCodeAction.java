@@ -15,8 +15,7 @@ public class SaveCodeAction extends AbstractAction {
 	public SaveCodeAction() {
 		putValue(NAME, "Save");
 		putValue(SHORT_DESCRIPTION, "");
-		putValue(
-				SMALL_ICON,
+		putValue(SMALL_ICON,
 				VsketchFrame.getImageIcon("glyphicons_134_inbox_in.png"));
 	}
 

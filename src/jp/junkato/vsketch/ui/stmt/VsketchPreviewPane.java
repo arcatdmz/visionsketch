@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
@@ -14,7 +15,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
 import jp.junkato.vsketch.interpreter.Stmt;
-import jp.junkato.vsketch.ui.Icon;
 import jp.junkato.vsketch.ui.VsketchFrame;
 import jp.junkato.vsketch.ui.stmt.VsketchPreviewPanel.FitMode;
 
@@ -22,7 +22,7 @@ public class VsketchPreviewPane extends JScrollPane {
 	private static final long serialVersionUID = -7261812132374951716L;
 	private VsketchPreviewPanel panel;
 	private Stmt stmt;
-	private Icon fitModeIcon;
+	private ImageIcon fitModeIcon;
 	private static final int fitModeIconPadding = 5;
 	private boolean buttonVisible;
 	private boolean buttonPressed;
@@ -30,7 +30,7 @@ public class VsketchPreviewPane extends JScrollPane {
 	public VsketchPreviewPane() {
 		panel = new VsketchPreviewPanel();
 		setViewportView(panel);
-		fitModeIcon = VsketchFrame.getIcon("glyphicons_215_resize_full.png");
+		fitModeIcon = VsketchFrame.getImageIcon("glyphicons_215_resize_full.png");
 		MyMouseListener listener = new MyMouseListener();
 		panel.addMouseListener(listener);
 		panel.addMouseMotionListener(listener);
@@ -145,26 +145,26 @@ public class VsketchPreviewPane extends JScrollPane {
 	}
 
 	private int getFitModeButtonX() {
-		int x = getWidth() - fitModeIcon.image.getIconWidth() - 15;
+		int x = getWidth() - fitModeIcon.getIconWidth() - 15;
 		if (getVerticalScrollBar().isShowing())
 			x -= getVerticalScrollBar().getWidth();
 		return x;
 	}
 
 	private int getFitModeButtonY() {
-		int y = getHeight() - fitModeIcon.image.getIconHeight() - 15;
+		int y = getHeight() - fitModeIcon.getIconHeight() - 15;
 		if (getHorizontalScrollBar().isShowing())
 			y -= getHorizontalScrollBar().getHeight();
 		return y;
 	}
 
 	private int getFitModeButtonWidth() {
-		return fitModeIcon.image.getIconWidth()
+		return fitModeIcon.getIconWidth()
 				+ fitModeIconPadding * 2;
 	}
 
 	private int getFitModeButtonHeight() {
-		return fitModeIcon.image.getIconHeight()
+		return fitModeIcon.getIconHeight()
 				+ fitModeIconPadding * 2;
 	}
 
@@ -180,7 +180,7 @@ public class VsketchPreviewPane extends JScrollPane {
 			g.fillRect(0, 0,
 					getFitModeButtonWidth(),
 					getFitModeButtonHeight());
-			fitModeIcon.image.paintIcon(this, g,
+			fitModeIcon.paintIcon(this, g,
 					fitModeIconPadding,
 					fitModeIconPadding);
 			g.setColor(c);
@@ -263,7 +263,7 @@ public class VsketchPreviewPane extends JScrollPane {
 		public ChangeFitModeAction() {
 			putValue(NAME, "");
 			putValue(SHORT_DESCRIPTION, "Change how the image fits to the panel boundary.");
-			putValue(SMALL_ICON, VsketchFrame.getIcon("glyphicons_215_resize_full.png").image);
+			putValue(SMALL_ICON, VsketchFrame.getImageIcon("glyphicons_215_resize_full.png"));
 		}
 		public void actionPerformed(ActionEvent e) {
 			changeFitMode();

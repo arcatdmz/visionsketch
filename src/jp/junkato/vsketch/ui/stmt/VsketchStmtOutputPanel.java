@@ -22,6 +22,7 @@ import jp.junkato.vsketch.tool.ScrollTool;
 import jp.junkato.vsketch.ui.VsketchFrame;
 import jp.junkato.vsketch.ui.action.CreateNewFunctionAction;
 import jp.junkato.vsketch.ui.action.RemoveFunctionAction;
+import jp.junkato.vsketch.utils.VsketchUtils;
 
 public class VsketchStmtOutputPanel extends JPanel {
 	private static final long serialVersionUID = 6399615540198759780L;
@@ -124,6 +125,9 @@ public class VsketchStmtOutputPanel extends JPanel {
 			newButton = new JButton(new CreateNewFunctionAction());
 			newButton.setFont(VsketchFrame.defaultFont);
 			newButton.setMargin(new Insets(10, 5, 10, 5));
+			if (VsketchUtils.isMac()) {
+				newButton.putClientProperty("JButton.buttonType", "square");
+			}
 		}
 		return newButton;
 	}
@@ -133,6 +137,9 @@ public class VsketchStmtOutputPanel extends JPanel {
 			removeButton = new JButton(new RemoveFunctionAction());
 			removeButton.setFont(VsketchFrame.defaultFont);
 			removeButton.setMargin(new Insets(10, 5, 10, 5));
+			if (VsketchUtils.isMac()) {
+				removeButton.putClientProperty("JButton.buttonType", "square");
+			}
 		}
 		return removeButton;
 	}

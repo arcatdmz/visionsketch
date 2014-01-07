@@ -15,6 +15,10 @@ public class VsketchUtils {
 		return System.getProperty("os.name").toLowerCase().contains("win");
 	}
 
+	public static boolean isMac() {
+		return System.getProperty("os.name").toLowerCase().startsWith("mac os x");
+	}
+
 	public static String openFileDialog() {
 
 		if (VsketchFrame.isWindows()) {
@@ -44,8 +48,7 @@ public class VsketchUtils {
 		}
 
 		JFileChooser jfc = new JFileChooser();
-		jfc.setDialogType(JFileChooser.SAVE_DIALOG);
-		if (jfc.showOpenDialog(VsketchFrame.getInstance()) == JFileChooser.APPROVE_OPTION) {
+		if (jfc.showSaveDialog(VsketchFrame.getInstance()) == JFileChooser.APPROVE_OPTION) {
 			return jfc.getSelectedFile().getAbsolutePath();
 		}
 

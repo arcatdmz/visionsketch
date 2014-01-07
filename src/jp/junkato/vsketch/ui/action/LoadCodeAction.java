@@ -16,8 +16,7 @@ public class LoadCodeAction extends AbstractAction {
 	public LoadCodeAction() {
 		putValue(NAME, "Load");
 		putValue(SHORT_DESCRIPTION, "");
-		putValue(
-				SMALL_ICON,
+		putValue(SMALL_ICON,
 				VsketchFrame.getImageIcon("glyphicons_135_inbox_out.png"));
 	}
 

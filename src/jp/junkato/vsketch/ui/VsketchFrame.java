@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import jp.junkato.vsketch.ui.code.VsketchCodePanel;
 import jp.junkato.vsketch.ui.stmt.VsketchStmtPanel;
+import jp.junkato.vsketch.utils.VsketchUtils;
 
 public class VsketchFrame extends JFrame {
 	private static final long serialVersionUID = -8146867638970911579L;
@@ -31,9 +32,12 @@ public class VsketchFrame extends JFrame {
 	private static final int canvasHeight = 600;
 
 	public static final String ICON_PREFIX = "/icons/";
-	public static final Font headerFont = new Font("Meiryo UI", Font.BOLD, 24);
-	public static final Font defaultFont = new Font("Meiryo UI", Font.PLAIN, 16);
-	public static final Font smallFont = new Font("Meiryo UI", Font.PLAIN, 11);
+	public static final String fontName =
+			VsketchUtils.isWindows() ? "Meiryo UI" :
+				(VsketchUtils.isMac() ? "Lucida Grande" : Font.SANS_SERIF);
+	public static final Font headerFont = new Font(fontName, Font.BOLD, 24);
+	public static final Font defaultFont = new Font(fontName, Font.PLAIN, 16);
+	public static final Font smallFont = new Font(fontName, Font.PLAIN, 11);
 	public static Color blue = new Color(9, 33, 64);
 	public static Color green = new Color(74, 176, 100);
 	public static Color lightGreen = new Color(120, 211, 134);

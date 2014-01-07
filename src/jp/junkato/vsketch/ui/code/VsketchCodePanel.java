@@ -8,10 +8,13 @@ import javax.swing.JScrollPane;
 import jp.junkato.vsketch.ui.VsketchFrame;
 import jp.junkato.vsketch.ui.action.LoadCodeAction;
 import jp.junkato.vsketch.ui.action.SaveCodeAction;
+import jp.junkato.vsketch.utils.VsketchUtils;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
+import javax.swing.border.EmptyBorder;
 
 public class VsketchCodePanel extends JPanel {
 	private static final long serialVersionUID = 6153428836900512177L;
@@ -27,6 +30,9 @@ public class VsketchCodePanel extends JPanel {
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		panel.setLayout(new GridBagLayout());
+		if (VsketchUtils.isMac()) {
+			panel.setBorder(new EmptyBorder(0, 0, 3, 0));
+		}
 		
 				JLabel lblCodePanel = new JLabel("Canvas");
 				lblCodePanel.setFont(VsketchFrame.headerFont);

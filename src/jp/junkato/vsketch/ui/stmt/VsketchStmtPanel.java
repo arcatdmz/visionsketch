@@ -5,13 +5,19 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import jp.junkato.vsketch.VsketchMain;
 import jp.junkato.vsketch.function.Function;
@@ -20,6 +26,7 @@ import jp.junkato.vsketch.function.FunctionTemplate;
 import jp.junkato.vsketch.interpreter.Stmt;
 import jp.junkato.vsketch.ui.VsketchFrame;
 import jp.junkato.vsketch.ui.action.ShowCodeAction;
+import jp.junkato.vsketch.utils.VsketchUtils;
 
 public class VsketchStmtPanel extends JPanel {
 	private static final long serialVersionUID = 536600327442731271L;
@@ -38,13 +45,41 @@ public class VsketchStmtPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setFont(VsketchFrame.headerFont);
+		if (VsketchUtils.isMac()) {
+			tabbedPane.setFont(VsketchFrame.defaultFont);
+		} else {
+			tabbedPane.setFont(VsketchFrame.headerFont);
+		}
 		add(tabbedPane);
 
 		editorPanel = new VsketchStmtEditorPanel();
 		editorPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		splitPane = new JSplitPane();
+		if (VsketchUtils.isMac()) {
+			final Color c = new Color(230, 230, 230);
+
+			// EmptyBorder looks a bit brighter...
+			splitPane.setBorder(new LineBorder(c, 5));
+			splitPane.setUI(new BasicSplitPaneUI() {
+	            public BasicSplitPaneDivider createDefaultDivider() {
+	            return new BasicSplitPaneDivider(this) {
+					private static final long serialVersionUID = 2317812363162522913L;
+					public void setBorder(Border b) {
+	                }
+	                @Override
+	                    public void paint(Graphics g) {
+	                    g.setColor(c);
+	                    g.fillRect(0, 0, getSize().width, getSize().height);
+	                    super.paint(g);
+	                }
+	            };
+	            }
+			});
+			BasicSplitPaneDivider divider = (BasicSplitPaneDivider) splitPane.getComponent(2);
+			divider.setBackground(c);
+			divider.setBorder(null);
+		}
 		tabbedPane.addTab("Visual", splitPane);
 		tabbedPane.addTab("Code", editorPanel);
 		

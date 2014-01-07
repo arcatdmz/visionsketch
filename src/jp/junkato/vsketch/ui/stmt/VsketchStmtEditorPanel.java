@@ -12,7 +12,6 @@ import jp.junkato.vsketch.ui.Icon;
 import jp.junkato.vsketch.ui.IconComboBox;
 import jp.junkato.vsketch.ui.VsketchFrame;
 import jp.junkato.vsketch.ui.action.UpdateFunctionAction;
-
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -104,7 +103,7 @@ public class VsketchStmtEditorPanel extends JPanel {
 		gbc_lblStmtCheck.gridy = 2;
 		add(lblStmtCheck, gbc_lblStmtCheck);
 		
-		txtrStmtCheck = new RSyntaxTextArea(2, 20);
+		txtrStmtCheck = new RSyntaxTextArea(1, 20);
 		txtrStmtCheck.setFont(VsketchFrame.defaultFont);
 		txtrStmtCheck.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		txtrStmtCheck.setCodeFoldingEnabled(true);
@@ -128,7 +127,7 @@ public class VsketchStmtEditorPanel extends JPanel {
 		gbc_lblToolCheck.gridy = 3;
 		add(lblToolCheck, gbc_lblToolCheck);
 		
-		txtrToolCheck = new RSyntaxTextArea(2, 20);
+		txtrToolCheck = new RSyntaxTextArea(1, 20);
 		txtrToolCheck.setFont(VsketchFrame.defaultFont);
 		txtrToolCheck.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		txtrToolCheck.setCodeFoldingEnabled(true);

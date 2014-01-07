@@ -14,8 +14,11 @@ import jp.junkato.vsketch.interpreter.Interpreter;
 import jp.junkato.vsketch.interpreter.input.Camera;
 import jp.junkato.vsketch.server.SimpleHttpServer;
 import jp.junkato.vsketch.ui.VsketchFrame;
+import jp.junkato.vsketch.utils.VsketchUtils;
 
 public class VsketchMain {
+
+	private static final String TITLE = "Visionsketch";
 
 	private static VsketchMain instance;
 
@@ -58,6 +61,12 @@ public class VsketchMain {
 	 * Setup GUI components.
 	 */
 	private void initGUI() {
+		if (VsketchUtils.isMac()) {
+			// http://alvinalexander.com/apple/mac/java-mac-native-look/Putting_your_application_na.shtml
+			System.setProperty(
+					"com.apple.mrj.application.apple.menu.about.name",
+					TITLE);
+		}
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
@@ -71,6 +80,7 @@ public class VsketchMain {
 				VsketchMain.this.dispose();
 			}
 		});
+		frame.setTitle(TITLE);
 	}
 
 	/**
