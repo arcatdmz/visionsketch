@@ -1,6 +1,8 @@
 package jp.junkato.vsketch.ui.stmt;
 
 import javax.swing.JPanel;
+
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -12,10 +14,14 @@ import jp.junkato.vsketch.ui.Icon;
 import jp.junkato.vsketch.ui.IconComboBox;
 import jp.junkato.vsketch.ui.VsketchFrame;
 import jp.junkato.vsketch.ui.action.UpdateFunctionAction;
+import jp.junkato.vsketch.utils.VsketchUtils;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import javax.swing.JButton;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 public class VsketchStmtEditorPanel extends JPanel {
 	private static final long serialVersionUID = -7566947509495247925L;
@@ -34,6 +40,9 @@ public class VsketchStmtEditorPanel extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0, 1, 0, 0};
 		gridBagLayout.rowWeights = new double[]{0, 0, 0, 0, 0, 1, 0};
 		setLayout(gridBagLayout);
+		if (VsketchUtils.isMac()) {
+			setBackground(new Color(230, 230, 230));
+		}
 		
 		JLabel lblFunctionName = new JLabel("Function name:");
 		lblFunctionName.setFont(VsketchFrame.defaultFont);
@@ -168,6 +177,7 @@ public class VsketchStmtEditorPanel extends JPanel {
 
 		JButton btnUpdate = new JButton(new UpdateFunctionAction());
 		btnUpdate.setFont(VsketchFrame.defaultFont);
+		btnUpdate.setMargin(new Insets(2, 3, 2, 3));
 		GridBagConstraints gbc_btnUpdate = new GridBagConstraints();
 		gbc_btnUpdate.anchor = GridBagConstraints.EAST;
 		gbc_btnUpdate.gridwidth = 4;
@@ -175,6 +185,19 @@ public class VsketchStmtEditorPanel extends JPanel {
 		gbc_btnUpdate.gridx = 0;
 		gbc_btnUpdate.gridy = 6;
 		add(btnUpdate, gbc_btnUpdate);
+
+		if (VsketchUtils.isMac()) {
+//			try {
+//				Border b = txtFunctionName.getBorder().getClass().newInstance();
+//				txtrStmtCheck.setBorder(b);
+//				txtrToolCheck.setBorder(b);
+//			} catch (Exception e) {
+				// Disable AquaTextFieldBorders.
+				Border emptyBorder = new EmptyBorder(0, 0, 0, 0);
+				txtFunctionName.setBorder(emptyBorder);
+				txtDescription.setBorder(emptyBorder);
+//			}
+		}
 	}
 
 	private FunctionDefinition def;

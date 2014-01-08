@@ -47,6 +47,7 @@ public class VsketchCodePanel extends JPanel {
 				
 				JButton btnSaveCode = new JButton(new SaveCodeAction());
 				btnSaveCode.setFont(VsketchFrame.defaultFont);
+				btnSaveCode.setMargin(new Insets(2, 3, 2, 3));
 				GridBagConstraints gbc_btnSaveCode = new GridBagConstraints();
 				gbc_btnSaveCode.insets = new Insets(0, 5, 0, 0);
 				gbc_btnSaveCode.gridx = 1;
@@ -55,6 +56,7 @@ public class VsketchCodePanel extends JPanel {
 
 				JButton btnLoadCode = new JButton(new LoadCodeAction());
 				btnLoadCode.setFont(VsketchFrame.defaultFont);
+				btnLoadCode.setMargin(new Insets(2, 3, 2, 3));
 				GridBagConstraints gbc_btnLoadCode = new GridBagConstraints();
 				gbc_btnLoadCode.insets = new Insets(0, 5, 0, 0);
 				gbc_btnLoadCode.gridx = 2;

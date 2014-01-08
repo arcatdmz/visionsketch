@@ -3,9 +3,11 @@ package jp.junkato.vsketch.ui.stmt;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,6 +32,8 @@ import jp.junkato.vsketch.utils.VsketchUtils;
 
 public class VsketchStmtPanel extends JPanel {
 	private static final long serialVersionUID = 536600327442731271L;
+	private JLabel lblStmtPanel;
+	private JLabel lblFunctionName;
 	private JTabbedPane tabbedPane;
 	private JSplitPane splitPane;
 	private VsketchStmtInputPanel inputPanel;
@@ -93,25 +97,37 @@ public class VsketchStmtPanel extends JPanel {
 		add(panel, BorderLayout.NORTH);
 		panel.setLayout(new GridBagLayout());
 		
-			JLabel lblStmtPanel = new JLabel("Editor");
+			lblStmtPanel = new JLabel("Editor");
 			lblStmtPanel.setFont(VsketchFrame.headerFont);
 			GridBagConstraints gbc_lblStmtPanel = new GridBagConstraints();
 			gbc_lblStmtPanel.insets = new Insets(5, 5, 5, 5);
-			gbc_lblStmtPanel.weightx = 1.0;
 			gbc_lblStmtPanel.fill = GridBagConstraints.BOTH;
 			gbc_lblStmtPanel.anchor = GridBagConstraints.NORTHWEST;
 			gbc_lblStmtPanel.gridx = 0;
 			gbc_lblStmtPanel.gridy = 0;
 			panel.add(lblStmtPanel, gbc_lblStmtPanel);
-		
+
+			lblFunctionName = new JLabel();
+			lblFunctionName.setFont(VsketchFrame.headerFont.deriveFont(Font.PLAIN));
+			GridBagConstraints gbc_lblFunctionName = new GridBagConstraints();
+			gbc_lblFunctionName.insets = new Insets(5, 5, 5, 5);
+			gbc_lblFunctionName.weightx = 1.0;
+			gbc_lblFunctionName.fill = GridBagConstraints.BOTH;
+			gbc_lblFunctionName.anchor = GridBagConstraints.NORTHWEST;
+			gbc_lblFunctionName.gridx = 1;
+			gbc_lblFunctionName.gridy = 0;
+			panel.add(lblFunctionName, gbc_lblFunctionName);
+
 			JButton btnShowCode = new JButton(new ShowCodeAction());
 			btnShowCode.setFont(VsketchFrame.defaultFont);
+			btnShowCode.setMargin(new Insets(2, 3, 2, 3));
+			btnShowCode.setHorizontalTextPosition(SwingConstants.LEFT);
 			GridBagConstraints gbc_btnShowCode = new GridBagConstraints();
 			gbc_btnShowCode.insets = new Insets(5, 5, 5, 5);
 			gbc_btnShowCode.weightx = 0;
 			gbc_btnShowCode.fill = GridBagConstraints.BOTH;
 			gbc_btnShowCode.anchor = GridBagConstraints.NORTHWEST;
-			gbc_btnShowCode.gridx = 1;
+			gbc_btnShowCode.gridx = 2;
 			gbc_btnShowCode.gridy = 0;
 			panel.add(btnShowCode, gbc_btnShowCode);
 
@@ -173,6 +189,11 @@ public class VsketchStmtPanel extends JPanel {
 			FunctionDefinition def = VsketchMain.getInstance().getCompiler()
 					.getDefinition(function.getTemplate().getClass().getSimpleName());
 			editorPanel.open(def, false);
+			lblStmtPanel.setText("Editor:");
+			lblFunctionName.setText(function.getTemplate().getName());
+		} else {
+			lblStmtPanel.setText("Editor");
+			lblFunctionName.setText("");
 		}
 	}
 
