@@ -1,10 +1,12 @@
 package jp.junkato.vsketch;
 
 import java.awt.EventQueue;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -46,6 +48,12 @@ public class VsketchMain {
 	private VsketchMain() {}
 
 	private void initialize(final String args[]) {
+		if (VsketchUtils.isMac()) {
+			// http://alvinalexander.com/apple/mac/java-mac-native-look/Putting_your_application_na.shtml
+			System.setProperty(
+					"com.apple.mrj.application.apple.menu.about.name",
+					TITLE);
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				initGUI();
@@ -61,12 +69,6 @@ public class VsketchMain {
 	 * Setup GUI components.
 	 */
 	private void initGUI() {
-		if (VsketchUtils.isMac()) {
-			// http://alvinalexander.com/apple/mac/java-mac-native-look/Putting_your_application_na.shtml
-			System.setProperty(
-					"com.apple.mrj.application.apple.menu.about.name",
-					TITLE);
-		}
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
@@ -81,8 +83,26 @@ public class VsketchMain {
 			}
 		});
 		frame.setTitle(TITLE);
+		if (VsketchUtils.isMac()) {
+			enableFullScreenMode(frame);
+		}
 	}
 
+	public static void enableFullScreenMode(Window window) {
+		String className = "com.apple.eawt.FullScreenUtilities";
+		String methodName = "setWindowCanFullScreen";
+
+		try {
+			Class<?> clazz = Class.forName(className);
+			Method method = clazz.getMethod(methodName, new Class<?>[] {
+					Window.class, boolean.class });
+			method.invoke(null, window, true);
+		} catch (Throwable t) {
+			System.err.println("Full screen mode is not supported");
+			t.printStackTrace();
+		}
+	}
+   
 	/**
 	 * Compile predefined image processing components.
 	 */
