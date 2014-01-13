@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.BindException;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -111,12 +112,18 @@ public class VsketchMain {
 	}
 
 	private void initServer() {
+		initServer(8080);
+	}
+
+	private void initServer(int port) {
 		try {
-			server = new SimpleHttpServer();
+			server = new SimpleHttpServer(port);
+			server.start();
+		} catch(BindException e) {
+			initServer(port + 1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		server.start();
 	}
 
 	/**

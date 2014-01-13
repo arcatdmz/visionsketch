@@ -3,6 +3,7 @@ package jp.junkato.vsketch.server;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -23,9 +24,13 @@ public class SimpleHttpServer implements HttpHandler {
 	}
 
 	public SimpleHttpServer() throws IOException {
+		this(8080);
+	}
+
+	public SimpleHttpServer(int port) throws IOException {
 
 		// ParameterFilter filter = new ParameterFilter();
-		server = HttpServer.create(new InetSocketAddress(8080), NUM_BACKLOG);
+		server = HttpServer.create(new InetSocketAddress(port), NUM_BACKLOG);
 
 		// Default file handler
 		defaultFileHandler = new DefaultFileHandler("public");
@@ -35,10 +40,19 @@ public class SimpleHttpServer implements HttpHandler {
 		server.createContext("/system", this);
 	}
 
-	public void createContext(String path, HttpHandler handler) {
-		if (path != null && handler != null) {
-			server.createContext(path, handler);
+	public HttpContext createContext(String path, HttpHandler handler) {
+		if (path == null || handler == null) {
+			return null;
 		}
+		return server.createContext(path, handler);
+	}
+
+	public boolean removeContext(HttpContext context) {
+		if (context == null) {
+			return false;
+		}
+		server.removeContext(context);
+		return true;
 	}
 
 	public boolean removeContext(String path) {
@@ -91,10 +105,14 @@ public class SimpleHttpServer implements HttpHandler {
 	}
 
 	public void start() {
+		int port = server.getAddress().getPort();
 		server.start();
+		System.out.println("--- Started HTTP server at port " + port);
 	}
 
 	public void stop() {
-		this.server.stop(0);
+		int port = server.getAddress().getPort();
+		server.stop(0);
+		System.out.println("--- Stopped HTTP server at port " + port);
 	}
 }

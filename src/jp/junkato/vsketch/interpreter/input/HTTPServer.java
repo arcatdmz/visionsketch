@@ -6,12 +6,14 @@ import org.simpleframework.xml.Element;
 
 import jp.junkato.vsketch.VsketchMain;
 import jp.junkato.vsketch.server.PostedFileHandler;
+import jp.junkato.vsketch.server.SimpleHttpServer;
 import jp.junkato.vsketch.server.PostedFileHandler.FileData;
 import static com.googlecode.javacv.cpp.opencv_core.*;
 import static com.googlecode.javacv.cpp.opencv_highgui.cvDecodeImage;
 
 import com.googlecode.javacpp.BytePointer;
 import com.googlecode.javacv.cpp.opencv_core.IplImage;
+import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 
 public class HTTPServer implements InputSource {
@@ -21,6 +23,7 @@ public class HTTPServer implements InputSource {
 	@Element(required=false)
 	private int port = 8080;
 	private PostedFileHandler handler;
+	private HttpContext context;
 	private IplImage image;
 	private long frameIndex;
 
@@ -56,7 +59,10 @@ public class HTTPServer implements InputSource {
 	@Override
 	public void reload() {
 		dispose();
-		VsketchMain.getInstance().getServer().createContext("/post", handler);
+		SimpleHttpServer server = VsketchMain.getInstance().getServer();
+		if (server != null && context == null) {
+			context = server.createContext("/post", handler);
+		}
 	}
 
 	protected void onFilePosted(FileData file) {
@@ -91,7 +97,11 @@ public class HTTPServer implements InputSource {
 
 	@Override
 	public void dispose() {
-		VsketchMain.getInstance().getServer().removeContext("/post");
+		SimpleHttpServer server = VsketchMain.getInstance().getServer();
+		if (server != null && context != null) {
+			server.removeContext(context);
+		}
+		context = null;
 	}
 
 	@Override

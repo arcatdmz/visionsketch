@@ -59,7 +59,6 @@ public class DefaultFileHandler implements HttpHandler {
 
 	public void loadFiles() {
 		cache = new HashMap<String, byte[]>();
-		System.out.println("--- Loading static files.");
 
 		if (!new File(rootPath).isDirectory()) {
 			rootPath = ".";
@@ -90,6 +89,7 @@ public class DefaultFileHandler implements HttpHandler {
 				}
 			}
 		}
+		System.out.println("--- Loaded static files.");
 	}
 
 	private byte[] loadFile(File file) {
