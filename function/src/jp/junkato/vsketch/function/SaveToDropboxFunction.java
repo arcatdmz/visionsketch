@@ -42,7 +42,8 @@ public class SaveToDropboxFunction extends Function {
 		if (f != null && f.getRetValues().containsKey("brightness")) {
 			int brightness = Integer.parseInt(f.getRetValues().get("brightness").toString());
 			if (brightness > 100) {
-				cvSaveImage("/Users/arc/Dropbox/Shared/J.N/whiteboard.jpg", sourceImage);
+				cvSaveImage("/Users/arc/Dropbox/Shared/J.N/whiteboard.jpg", sourceImage); // for Mac OS X
+				//cvSaveImage("C:\\Users\\arc\\Shared\\J.N\\whiteboard.jpg", sourceImage); // for Windows
 				cvCopy(sourceImage, resultImage);
 			}
 		}
