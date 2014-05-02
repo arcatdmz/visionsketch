@@ -51,7 +51,7 @@ public class VsketchFrame extends JFrame {
 	private AnimatedGlassPane glassPane;
 	private VsketchCodePanel codePanel;
 	private VsketchStmtPanel stmtPanel;
-	private PlaybackControllerPanel playerPanel;
+	private PlaybackControlPanel playerPanel;
 
 	private static Pattern iconNamePattern = Pattern.compile("icons/(.+?\\.png)");
 	private static List<Icon> icons;
@@ -117,9 +117,9 @@ public class VsketchFrame extends JFrame {
 		return stmtPanel;
 	}
 
-	public PlaybackControllerPanel getPlayerPanel() {
+	public PlaybackControlPanel getPlayerPanel() {
 		if (playerPanel == null) {
-			playerPanel = new PlaybackControllerPanel();
+			playerPanel = new PlaybackControlPanel();
 		}
 		return playerPanel;
 	}

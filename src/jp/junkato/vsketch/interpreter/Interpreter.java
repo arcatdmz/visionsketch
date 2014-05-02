@@ -181,6 +181,7 @@ public class Interpreter {
 					&& !f.getStmtPanel().getEditorPanel().isShowing()) {
 				f.getStmtPanel().repaintView();
 			}
+			f.getPlayerPanel().repaintView();
 		}
 		if (getDuration() >= 0 &&
 				getCurrentPosition() >= getDuration() - 1) {

@@ -1,14 +1,9 @@
 package jp.junkato.vsketch.ui;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -21,7 +16,7 @@ import jp.junkato.vsketch.interpreter.Interpreter;
 import jp.junkato.vsketch.interpreter.InterpreterListener;
 import jp.junkato.vsketch.utils.VsketchUtils;
 
-public class PlaybackControllerPanel extends JPanel implements InterpreterListener {
+public class PlaybackControlPanel extends JPanel implements InterpreterListener {
 	private static final long serialVersionUID = 5465021939000658345L;
 	public static final String LABEL_STOP = "Stop";
 	public static final String LABEL_START = "Start";
@@ -29,7 +24,7 @@ public class PlaybackControllerPanel extends JPanel implements InterpreterListen
 	private JButton btnStartStop;
 	private JButton btnSuperStartStop;
 	private JButton btnPreviousFrame;
-	private JPanel pnlSeek;
+	private PlaybackSeekPanel pnlSeek;
 	private JButton btnNextFrame;
 	private final Action startOrStopAction = new StartOrStopAction();
 	private final Action superStartOrStopAction = new SuperStartOrStopAction();
@@ -39,7 +34,7 @@ public class PlaybackControllerPanel extends JPanel implements InterpreterListen
 	/**
 	 * Create the panel.
 	 */
-	public PlaybackControllerPanel() {
+	public PlaybackControlPanel() {
 
 		GridBagLayout gbl_pnlOption = new GridBagLayout();
 		gbl_pnlOption.columnWeights = new double[]{0, 0, 0, 1, 0};
@@ -74,34 +69,7 @@ public class PlaybackControllerPanel extends JPanel implements InterpreterListen
 		gbc_btnSuperStartStop.gridy = 0;
 		add(btnSuperStartStop, gbc_btnSuperStartStop);
 		
-		pnlSeek = new JPanel() {
-			private static final long serialVersionUID = -444377534211733636L;
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.setColor(Color.blue);
-				int width = getWidth();
-
-				Interpreter interp = VsketchMain.getInstance().getInterpreter();
-				if (interp != null && interp.getDuration() > 0) {
-					width *= interp.getCurrentPosition();
-					width /= interp.getDuration();
-				}
-
-				g.fillRect(0, 0, width, getHeight());
-			}
-		};
-		pnlSeek.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				Interpreter interp = VsketchMain.getInstance().getInterpreter();
-				if (interp != null && interp.getDuration() > 0) {
-					long frameCount = interp.getDuration();
-					frameCount *= e.getX();
-					frameCount /= pnlSeek.getWidth();
-					interp.seek(frameCount);
-				}
-			}
-		});
+		pnlSeek = new PlaybackSeekPanel();
 
 		btnPreviousFrame = new JButton();
 		btnPreviousFrame.setFont(VsketchFrame.defaultFont);
@@ -142,6 +110,10 @@ public class PlaybackControllerPanel extends JPanel implements InterpreterListen
 		if (VsketchUtils.isMac()) {
 			setBorder(new EmptyBorder(0, 0, 3, 0));
 		}
+	}
+
+	public void repaintView() {
+		pnlSeek.repaintView();
 	}
 
 	private class StartOrStopAction extends AbstractAction {
@@ -220,4 +192,5 @@ public class PlaybackControllerPanel extends JPanel implements InterpreterListen
 		btnSuperStartStop.setText(LABEL_SUPERSTART);
 		btnSuperStartStop.setVisible(true);
 	}
+
 }
